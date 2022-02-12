@@ -1,5 +1,6 @@
 using ContosoPizza.Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ builder.Services.AddDbContext<ContosoPizzaContext>(
         options.UseMySql(builder.Configuration.GetConnectionString("ContosoPizza"),
         Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.23-mysql"));
     });
+
+builder.Services.AddMvc(option => option.EnableEndpointRouting = false)
+    .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 var app = builder.Build();
 
